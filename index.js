@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+const program = require("commander");
+const { version } = require("./package.json");
+const { readMap } = require("./src/tiledReader");
+
+
+const toInt = (v) => parseInt(v, 10);
+const toHex = (v) => parseInt(v, 16);
+
+program
+    .version(version)
+    .description("A small CLI to extrude tiles from a Tiled map. Use --help for more information.")
+    .option("-i, --inputFile <path>", "the path to the map you want to process")
+    .option("-o, --outputDir <path>", "the output directory")
+    .option(
+        "-c, --color [hex=0xffffff00]",
+        "RGBA color to use for the background color, only matters if there's margin or spacing (default: transparent white)",
+        toHex
+    )
+    .option("-e, --extrusion [integer=1]", "number of pixels to extrude by", toInt, 1)
+    .parse(process.argv);
+
+const {
+    extrusion,
+    color,
+    inputFile: inputPath,
+    outputDir: outputPath,
+} = program;
+
+if (!inputPath) {
+    console.log("\nMissing path to map! See help below for usage information:");
+    program.help();
+}
+if (!outputPath) {
+    console.log("\nMissing output directory! See help below for usage information:");
+    program.help();
+}
+
+readMap(inputPath, outputPath, extrusion, color);
+
+/*extrudeTilesetToImage(tileWidth, tileHeight, inputPath, outputPath, {
+    margin,
+    spacing,
+    extrusion,
+    color,
+});
+*/

@@ -1,0 +1,7 @@
+{
+  "version": "1.0",
+  "dependencies": {
+    "commander": "^5.1.0",
+    "tile-extruder": "^2.0.6"
+  }
+}
