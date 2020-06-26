@@ -3,5 +3,8 @@
   "dependencies": {
     "commander": "^5.1.0",
     "tile-extruder": "^2.0.6"
+  },
+  "bin": {
+    "tile-optimizer": "./bin/tile-optimizer"
   }
 }

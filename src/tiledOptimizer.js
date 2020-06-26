@@ -9,7 +9,7 @@ const { extrudeTilesetToImage } = require("tile-extruder");
  * @param mapPath string
  * @returns {Promise<void>}
  */
-async function readMap(mapPath, outputDir, extrusion, color) {
+async function optimizeMap(mapPath, outputDir, extrusion, color) {
     let rawdata = JSON.parse(fs.readFileSync(mapPath));
 
     let tilesets = rawdata.tilesets;
@@ -51,4 +51,4 @@ async function processTileset(tileset, extrusion, color, mapDir, outputDir) {
     return outputImagePath;
 }
 
-module.exports = { readMap };
+module.exports = { optimizeMap };

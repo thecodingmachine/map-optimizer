@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 const program = require("commander");
-const { version } = require("./package.json");
-const { readMap } = require("./src/tiledReader");
+const { version } = require("../package.json");
+const { optimizeMap } = require("../src/tiledOptimizer");
 
 
 const toInt = (v) => parseInt(v, 10);
@@ -37,12 +37,6 @@ if (!outputPath) {
     program.help();
 }
 
-readMap(inputPath, outputPath, extrusion, color);
-
-/*extrudeTilesetToImage(tileWidth, tileHeight, inputPath, outputPath, {
-    margin,
-    spacing,
-    extrusion,
-    color,
-});
-*/
+optimizeMap(inputPath, outputPath, extrusion, color).then(() => {
+    console.log('Done.');
+}).catch(err => console.error(err));
