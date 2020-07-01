@@ -51,4 +51,23 @@ async function processTileset(tileset, extrusion, color, mapDir, outputDir) {
     return outputImagePath;
 }
 
-module.exports = { optimizeMap };
+/**
+ * Returns whether the file is a JSON Tile map or not.
+ * @param mapPath
+ * @return boolean
+ */
+function isJsonTiledMap(mapPath) {
+    try {
+        let rawdata = JSON.parse(fs.readFileSync(mapPath));
+
+        let tilesets = rawdata.tilesets;
+        if (tilesets === undefined) {
+            return false;
+        }
+        return true;
+    } catch (err) {
+        console.error('The file '+mapPath+' does not appear to be a JSON Tile map. Error: ', err);
+        return false;
+    }
+}
+module.exports = { optimizeMap, isJsonTiledMap };

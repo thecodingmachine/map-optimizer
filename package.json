@@ -1,7 +1,10 @@
 {
-  "version": "1.0",
+  "name": "map-optimizer",
+  "description": "A tool to automatically optimize a map in Tiled JSON format for usage in Phaser 3 game engine.",
+  "version": "1.0.0",
   "dependencies": {
     "commander": "^5.1.0",
+    "glob": "^7.1.6",
     "tile-extruder": "^2.0.6"
   },
   "bin": {
