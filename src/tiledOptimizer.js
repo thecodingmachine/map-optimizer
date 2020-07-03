@@ -70,4 +70,4 @@ function isJsonTiledMap(mapPath) {
         return false;
     }
 }
-module.exports = { optimizeMap, processTileset, isJsonTiledMap };
+module.exports = { optimizeMap, isJsonTiledMap };
