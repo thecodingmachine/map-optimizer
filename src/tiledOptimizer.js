@@ -48,7 +48,7 @@ async function processTileset(tileset, extrusion, color, mapDir, outputDir) {
 
     let imagePath = path.resolve(mapDir, tileset.image);
     if (alreadyProcessed.has(imagePath)) {
-        console.log('Tileset image "'imagePath, '" already processed (in a previous map)');
+        console.log('Tileset image "', imagePath, '" already processed (in a previous map)');
         return outputImagePath;
     }
     alreadyProcessed.add(imagePath);
