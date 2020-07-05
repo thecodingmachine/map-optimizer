@@ -4,6 +4,8 @@ const fs = require('fs');
 const path = require('path');
 const { extrudeTilesetToImage } = require("tile-extruder");
 
+let alreadyProcessed = new Set();
+
 /**
  *
  * @param mapPath string
@@ -41,10 +43,17 @@ async function processTileset(tileset, extrusion, color, mapDir, outputDir) {
         console.log('Tileset "'+tileset.image+'" is already extruded.');
         return;
     }
-
     // Let's extrude!
     let outputImagePath = path.resolve(outputDir, tileset.image);
-    await extrudeTilesetToImage(tileset.tilewidth, tileset.tileheight, path.resolve(mapDir, tileset.image), outputImagePath, {
+
+    let imagePath = path.resolve(mapDir, tileset.image);
+    if (alreadyProcessed.has(imagePath)) {
+        console.log('Tileset image "'imagePath, '" already processed (in a previous map)');
+        return outputImagePath;
+    }
+    alreadyProcessed.add(imagePath);
+
+    await extrudeTilesetToImage(tileset.tilewidth, tileset.tileheight, imagePath, outputImagePath, {
         margin: tileset.margin,
         spacing: tileset.spacing,
         extrusion,
