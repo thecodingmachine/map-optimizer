@@ -27,6 +27,8 @@ async function optimizeMap(mapPath, outputDir, extrusion, color) {
         //tileset.image = imagePath;
         tileset.spacing = extrusion * 2;
         tileset.margin = extrusion;
+        tileset.imagewidth = tileset.imagewidth + Math.floor(tileset.imagewidth / tileset.tilewidth) * extrusion * 2;
+        tileset.imageheight = tileset.imageheight + Math.floor(tileset.imageheight / tileset.tileheight) * extrusion * 2;
     }
 
     console.log("Rewriting map");
