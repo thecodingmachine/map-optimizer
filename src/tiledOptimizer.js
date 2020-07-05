@@ -24,7 +24,7 @@ async function optimizeMap(mapPath, outputDir, extrusion, color) {
     for (let tileset of tilesets) {
         console.log("Processing ",tileset.image);
         let imagePath = await processTileset(tileset, extrusion, color, path.dirname(mapPath), outputDir);
-        tileset.image = imagePath;
+        //tileset.image = imagePath;
         tileset.spacing = extrusion * 2;
         tileset.margin = extrusion;
     }
