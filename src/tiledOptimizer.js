@@ -25,12 +25,22 @@ async function optimizeMap(mapPath, outputDir, extrusion, color) {
 
     for (let tileset of tilesets) {
         console.log("Processing ",tileset.image);
-        let imagePath = await processTileset(tileset, extrusion, color, path.dirname(mapPath), outputDir);
-        //tileset.image = imagePath;
-        tileset.spacing = extrusion * 2;
-        tileset.margin = extrusion;
-        tileset.imagewidth = tileset.imagewidth + Math.floor(tileset.imagewidth / tileset.tilewidth) * extrusion * 2;
-        tileset.imageheight = tileset.imageheight + Math.floor(tileset.imageheight / tileset.tileheight) * extrusion * 2;
+        try {
+            let imagePath = await processTileset(tileset, extrusion, color, path.dirname(mapPath), outputDir);
+            //tileset.image = imagePath;
+            tileset.spacing = extrusion * 2;
+            tileset.margin = extrusion;
+            tileset.imagewidth = tileset.imagewidth + Math.floor(tileset.imagewidth / tileset.tilewidth) * extrusion * 2;
+            tileset.imageheight = tileset.imageheight + Math.floor(tileset.imageheight / tileset.tileheight) * extrusion * 2;
+        } catch (e) {
+            let outputImagePath = path.resolve(outputDir, tileset.image);
+            let imagePath = path.resolve(path.dirname(mapPath), tileset.image);
+            if (imagePath !== outputImagePath) {
+                fs.copyFileSync(imagePath, outputImagePath);
+            }
+            console.error('Failed to extrude tileset for image "'+tileset.image+'"');
+            console.error('Got error: ', e);
+        }
     }
 
     console.log("Rewriting map");
