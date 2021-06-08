@@ -9,9 +9,13 @@ let alreadyProcessed = new Set();
 /**
  *
  * @param mapPath string
+ * @param outputDir
+ * @param extrusion
+ * @param color
+ * @param alreadyExtrudedTilesets An array of tilesets that have already been extruded (maybe by another map?)
  * @returns {Promise<void>}
  */
-async function optimizeMap(mapPath, outputDir, extrusion, color) {
+async function optimizeMap(mapPath, outputDir, extrusion, color, alreadyHandledTilesets = []) {
     let rawdata = JSON.parse(fs.readFileSync(mapPath));
 
     let tilesets = rawdata.tilesets;
@@ -26,7 +30,11 @@ async function optimizeMap(mapPath, outputDir, extrusion, color) {
     for (let tileset of tilesets) {
         console.log("Processing ",tileset.image);
         try {
-            let imagePath = await processTileset(tileset, extrusion, color, path.dirname(mapPath), outputDir);
+            let inputImage = path.resolve(path.dirname(mapPath), tileset.image);
+            if (!alreadyHandledTilesets.find(path => path === inputImage)) {
+                await processTileset(tileset, extrusion, color, path.dirname(mapPath), outputDir);
+                alreadyHandledTilesets.push(inputImage);
+            }
             //tileset.image = imagePath;
             tileset.spacing = extrusion * 2;
             tileset.margin = extrusion;
